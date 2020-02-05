@@ -1,7 +1,7 @@
 <?php
 
-require_once('../config/MyPdo.php');
-require_once('../model/UserManager.php');
+require_once(ROOT_DIR . '/config/MyPdo.php');
+require_once(ROOT_DIR . '/model/UserManager.php');
 
 function listPosts()
 {

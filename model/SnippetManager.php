@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Snippet.php';
+require_once(ROOT_DIR . '/model/Snippet.php');
 
 class SnippetManager
 {

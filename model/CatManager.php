@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Cat.php';
+require_once(ROOT_DIR . '/model/Cat.php');
 
 class CatManager
 {

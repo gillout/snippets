@@ -1,6 +1,6 @@
 <?php
 
-require_once 'User.php';
+require_once(ROOT_DIR . '/model/User.php');
 
 class UserManager
 {

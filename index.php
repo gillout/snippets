@@ -12,9 +12,9 @@ if (preg_match('/User/', $url)) {
 }
 */
 
-require_once('ctrl/UserCtrl.php');
-require_once('ctrl/CatCtrl.php');
-require_once('ctrl/SnippetCtrl.php');
+require_once(ROOT_DIR . '/ctrl/UserCtrl.php');
+require_once(ROOT_DIR . '/ctrl/CatCtrl.php');
+require_once(ROOT_DIR . '/ctrl/SnippetCtrl.php');
 
 if ( isset($_GET['action']) && isset($_GET['id']) ) {
 

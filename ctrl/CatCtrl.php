@@ -1,8 +1,8 @@
 <?php
 
-require_once ('config.php');
-require_once('model/CatManager.php');
-require_once('config/MyPdo.php');
+require_once(ROOT_DIR . '/config.php');
+require_once(ROOT_DIR . '/model/CatManager.php');
+require_once(ROOT_DIR . '/config/MyPdo.php');
 
 class CatCtrl
 {

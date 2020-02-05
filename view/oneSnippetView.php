@@ -32,8 +32,8 @@
                 <p><?= $snippet->getDateCrea(); ?></p>
                 <p><?= $snippet->getComment(); ?></p>
                 <p><?= $snippet->getRequirement(); ?></p>
-                <p><?= $snippet->getUserId(); ?></p>
-                <p><?= $snippet->getCatId(); ?></p>
+                <p><?= $snippet->getUser()->getName(); ?></p>
+                <p><?= $snippet->getCat()->getLabel(); ?></p>
                 <?php
             } else {
                 echo 'Impossible de trouver le snippet.';
