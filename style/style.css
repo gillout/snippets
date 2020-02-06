@@ -1,6 +1,24 @@
-h1 {
+* {
+    list-style: none;
+}
+h1, h2 {
     text-align: center;
+}
+main {
+    display: flex;
+    justify-content: center;
+}
+#listsnippets {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 .selected {
     background-color: palegreen;
+}
+.flexgrow2 {
+    flex-grow: 2;
+}
+#titlesnippet {
+    text-align: left;
 }

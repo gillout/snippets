@@ -9,6 +9,9 @@
             <label>Label :</label>
             <input type="text" name="label" value="<?php if(isset($label)) {echo $label;} ?>" required />
         </div>
+        <div>
+            <button class="btn btn-primary">Valider l'ajout</button>
+        </div>
     </form>
 </section>
 <?php $content = ob_get_clean(); ?>

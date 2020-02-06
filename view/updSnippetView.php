@@ -39,6 +39,9 @@
             <label>Id catégorie :</label>
             <input type="number" name="catId" value="<?php if(isset($catId)) {echo $catId;} ?>" required />
         </div>
+        <div>
+            <button class="btn btn-primary">Valider la modification</button>
+        </div>
     </form>
 </section>
 <?php $content = ob_get_clean(); ?>

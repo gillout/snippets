@@ -29,8 +29,8 @@
         ?>
     </p>
     <p>
-        <a href="<?= ROOT_DIR; ?>/view/updUserView.php"><button>Modifier</button></a>
-        <a href="<?= ROOT_DIR; ?>/view/delUserView.php"><button>Supprimer</button></a>
+        <a href="<?= ROOT_DIR; ?>/view/updUserView.php?id=<?= $user->getUserId(); ?>"><button class="btn btn-secondary">Modifier</button></a>
+        <a href="<?= ROOT_DIR; ?>/view/delUserView.php?id=<?= $user->getUserId(); ?>"><button class="btn btn-warning">Supprimer</button></a>
     </p>
 </section>
 <?php $content = ob_get_clean(); ?>

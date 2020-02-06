@@ -12,6 +12,7 @@ if (preg_match('/User/', $url)) {
 }
 */
 
+require_once('config.php');
 require_once(ROOT_DIR . '/ctrl/UserCtrl.php');
 require_once(ROOT_DIR . '/ctrl/CatCtrl.php');
 require_once(ROOT_DIR . '/ctrl/SnippetCtrl.php');
@@ -40,13 +41,16 @@ if ( isset($_GET['action']) && isset($_GET['id']) ) {
     } elseif ($_GET['action'] == 'delCat') {
         $catCtrl = new CatCtrl();
         $catCtrl->delete($_GET['id']);
-    } elseif ($_GET['action'] == 'updCat') {
+    }
+    /*
+    elseif ($_GET['action'] == 'updCat') {
         $cat = new Cat();
         $cat->setCatId($_GET['id']);
         $cat->setLabel('Réécriture d\'url');
         $catCtrl = new CatCtrl();
         $catCtrl->update($cat);
     }
+    */
 
     if ($_GET['action'] == 'oneSnippet') {
         $snippetCtrl = new SnippetCtrl();

@@ -17,6 +17,9 @@
             <label>Pwd :</label>
             <input type="password" name="pwd" value="<?php if(isset($pwd)) {echo $pwd;} ?>" required />
         </div>
+        <div>
+            <button class="btn btn-primary">Valider la modification</button>
+        </div>
     </form>
 </section>
 <?php $content = ob_get_clean(); ?>

@@ -3,8 +3,8 @@
 <?php $h2 = 'Un snippet'; ?>
 
 <?php ob_start(); ?>
-<aside style="display: flex; flex-direction: column; flex-grow: 1;">
-    <h2><?= $h1; ?></h2>
+<aside id="listsnippets">
+    <h1><?= $h1; ?></h1>
     <ul>
         <?php foreach ($snippets as $item) : ?>
             <a href="?action=oneSnippet&id=<?= $item->getSnippetId(); ?>">
@@ -18,10 +18,10 @@
         <?php endforeach; ?>
     </ul>
 </aside>
-<a style="flex-grow: 2;">
-    <h2><?= $h2; ?></h2>
+<section class="flexgrow2">
+    <h1><?= $h2; ?></h1>
     <p>
-        <h2><?= $snippet->getTitle(); ?></h2>
+        <h2 id="titlesnippet"><?= $snippet->getTitle(); ?></h2>
         <?php
             if ($snippet) {
                 ?>
@@ -41,8 +41,8 @@
         ?>
     </p>
     <p>
-        <a href="<?= ROOT_DIR; ?>/view/updSnippetView.php"><button>Modifier</button></a>
-        <a href="<?= ROOT_DIR; ?>/view/delSnippetView.php"><button>Supprimer</button></a>
+        <a href="<?= ROOT_DIR; ?>/view/updSnippetView.php?id=<?= $snippet->getSnippetId(); ?>"><button class="btn btn-secondary">Modifier</button></a>
+        <a href="<?= ROOT_DIR; ?>/view/delSnippetView.php?id=<?= $snippet->getSnippetId(); ?>"><button class="btn btn-warning">Supprimer</button></a>
     </p>
 </section>
 <?php $content = ob_get_clean(); ?>

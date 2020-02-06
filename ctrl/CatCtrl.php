@@ -29,7 +29,7 @@ class CatCtrl
     public function delete($id)
     {
         $result = $this->_catManager->delCat($id);
-        require(ROOT_DIR . '/view/delCatView.php');
+        require(ROOT_DIR . '/index.php?action=listCats');
     }
     public function update($cat) {
         $cat = $this->_catManager->updCat($cat);

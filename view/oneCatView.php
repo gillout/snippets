@@ -26,8 +26,9 @@
         ?>
     </p>
     <p>
-        <a href="<?= ROOT_DIR; ?>/view/updCatView.php"><button>Modifier</button></a>
-        <a href="<?= ROOT_DIR; ?>/view/delCatView.php"><button>Supprimer</button></a>
+        <a href="<?= ROOT_DIR; ?>/view/addCatView.php"><button class="btn btn-success">Ajouter</button></a>
+        <!-- il faudrait juste une demande de confirmation suite à l'appui sur le bouton ci-dessous -->
+        <a href="<?= ROOT_DIR; ?>/?action=delCat&id=<?= $cat->getCatId(); ?>"><button class="btn btn-warning">Supprimer</button></a>
     </p>
 </section>
 <?php $content = ob_get_clean(); ?>

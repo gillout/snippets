@@ -42,6 +42,9 @@
             <label>Id catégorie :</label>
             <input type="number" name="catId" value="<?php if(isset($catId)) {echo $catId;} ?>" required />
         </div>
+        <div>
+            <button class="btn btn-danger">Valider la suppression</button>
+        </div>
     </form>
 </section>
 <?php $content = ob_get_clean(); ?>
