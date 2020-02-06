@@ -1,14 +1,10 @@
 <?php $title = 'Snippets'; ?>
-<?php $h1 = 'Suppression d\'un snippet'; ?>
+<?php $h1 = 'Modification d\'un snippet'; ?>
 
 <?php ob_start(); ?>
 <section>
     <h1><?= $h1; ?></h1>
     <form action="" method="POST">
-        <div>
-            <label>Id snippet :</label>
-            <input type="number" name="snippetId" value="<?php if(isset($snippetId)) {echo $snippetId;} ?>" required />
-        </div>
         <div>
             <label>Titre :</label>
             <input type="text" name="title" value="<?php if(isset($title)) {echo $title;} ?>" required />
@@ -28,7 +24,8 @@
         </div>
         <div>
             <label>Commentaire :</label>
-            <input type="text" name="comment" value="<?php if(isset($comment)) {echo $comment;} ?>" required />
+            <textarea name="comment" rows="5" cols="75" maxlength="" required>
+                <?php if(isset($comment)) {echo $comment;} ?></textarea>
         </div>
         <div>
             <label>Prérequis :</label>

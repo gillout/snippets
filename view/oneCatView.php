@@ -25,6 +25,10 @@
             }
         ?>
     </p>
+    <p>
+        <a href="<?= ROOT_DIR; ?>/view/updCatView.php"><button>Modifier</button></a>
+        <a href="<?= ROOT_DIR; ?>/view/delCatView.php"><button>Supprimer</button></a>
+    </p>
 </section>
 <?php $content = ob_get_clean(); ?>
 

@@ -1,14 +1,10 @@
 <?php $title = 'Snippets'; ?>
-<?php $h1 = 'Suppression d\'un utilisateur'; ?>
+<?php $h1 = 'Ajout d\'un utilisateur'; ?>
 
 <?php ob_start(); ?>
 <section>
     <h1><?= $h1; ?></h1>
     <form action="" method="POST">
-        <div>
-            <label>Id utilisateur :</label>
-            <input type="number" name="userId" value="<?php if(isset($userId)) {echo $userId;} ?>" required />
-        </div>
         <div>
             <label>Nom :</label>
             <input type="text" name="name" value="<?php if(isset($name)) {echo $name;} ?>" required />

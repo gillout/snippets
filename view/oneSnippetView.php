@@ -18,7 +18,7 @@
         <?php endforeach; ?>
     </ul>
 </aside>
-<section style="flex-grow: 2;">
+<a style="flex-grow: 2;">
     <h2><?= $h2; ?></h2>
     <p>
         <h2><?= $snippet->getTitle(); ?></h2>
@@ -39,6 +39,10 @@
                 echo 'Impossible de trouver le snippet.';
             }
         ?>
+    </p>
+    <p>
+        <a href="<?= ROOT_DIR; ?>/view/updSnippetView.php"><button>Modifier</button></a>
+        <a href="<?= ROOT_DIR; ?>/view/delSnippetView.php"><button>Supprimer</button></a>
     </p>
 </section>
 <?php $content = ob_get_clean(); ?>
