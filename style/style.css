@@ -7,6 +7,7 @@ h1, h2 {
 main {
     display: flex;
     justify-content: center;
+    width: 100%;
 }
 #listsnippets {
     display: flex;
@@ -21,4 +22,8 @@ main {
 }
 #titlesnippet {
     text-align: left;
+}
+form div {
+    display: flex;
+    justify-content: center;
 }

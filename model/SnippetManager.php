@@ -77,7 +77,8 @@ class SnippetManager
     {
         $req = $this->_db->prepare('DELETE FROM snippet WHERE snippetId = :snippetId');
         $req->bindParam(':snippetId', $id);
-        return $req->execute();
+        $req->execute();
+        return $req->rowCount();
     }
 
     public function updSnippet(Snippet $snippet)
@@ -102,10 +103,21 @@ class SnippetManager
         $req->bindParam(':userId', $userId);
         $catId = $snippet->getCatId();
         $req->bindParam(':catId', $catId);
+        $snippetId = $snippet->getSnippetId();
+        $req->bindParam(':snippetId', $snippetId);
         // Exécution requête
         if ($req->execute()) {
             return $this->getOneSnippet($snippetId);
         }
         return null;
+    }
+
+    public function getLastSnippet()
+    {
+        $this->_db->exec("set names utf8");
+        $req = $this->_db->prepare('SELECT * FROM snippet ORDER BY snippetId DESC LIMIT 1');
+        $req->execute();
+        $req->setFetchMode(PDO::FETCH_ASSOC);
+        return $this->hydrate($req->fetch(), new Snippet());
     }
 }

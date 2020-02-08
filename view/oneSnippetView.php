@@ -1,24 +1,14 @@
-<?php $title = 'Snippets'; ?>
-<?php $h1 = 'Les snippets'; ?>
-<?php $h2 = 'Un snippet'; ?>
+<?php
+    $title = 'Snippets';
+    $h1 = 'Tous les snippets';
+    $h2 = 'Un snippet';
 
-<?php ob_start(); ?>
-<aside id="listsnippets">
-    <h1><?= $h1; ?></h1>
-    <ul>
-        <?php foreach ($snippets as $item) : ?>
-            <a href="?action=oneSnippet&id=<?= $item->getSnippetId(); ?>">
-                <li class="<?= $item->getSnippetId() == $snippet->getSnippetId() ? 'selected' : ''; ?>">
-                    <p><?= $item->getTitle(); ?></p>
-                    <p><?= $item->getLanguage(); ?></p>
-                    <p><?= $item->getDateCrea(); ?></p>
-                    <p><?= $item->getCatId(); ?></p>
-                </li>
-            </a>
-        <?php endforeach; ?>
-    </ul>
-</aside>
+    ob_start();
+?>
 <section class="flexgrow2">
+    <?php if (isset($deleted) && $deleted > 0) : ?>
+        <p class="alert-success">Le snippet a été supprimé avec succès !</p>
+    <?php elseif (isset($deleted)) : ?><p class="alert-danger">Echec de la suppression du snippet !</p><?php endif; ?>
     <h1><?= $h2; ?></h1>
     <p>
         <h2 id="titlesnippet"><?= $snippet->getTitle(); ?></h2>
@@ -28,7 +18,7 @@
                 <p><?= $snippet->getSnippetId(); ?></p>
                 <p><?= $snippet->getTitle(); ?></p>
                 <p><?= $snippet->getLanguage(); ?></p>
-                <p><?= $snippet->getCode(); ?></p>
+                <pre><?= $snippet->getCode(); ?></pre>
                 <p><?= $snippet->getDateCrea(); ?></p>
                 <p><?= $snippet->getComment(); ?></p>
                 <p><?= $snippet->getRequirement(); ?></p>
@@ -41,10 +31,12 @@
         ?>
     </p>
     <p>
-        <a href="<?= ROOT_DIR; ?>/view/updSnippetView.php?id=<?= $snippet->getSnippetId(); ?>"><button class="btn btn-secondary">Modifier</button></a>
-        <a href="<?= ROOT_DIR; ?>/view/delSnippetView.php?id=<?= $snippet->getSnippetId(); ?>"><button class="btn btn-warning">Supprimer</button></a>
+        <a href="?action=addSnippet"><button class="btn btn-success">Ajouter</button></a>
+        <a href="?action=updSnippet&id=<?= $snippet->getSnippetId(); ?>"><button class="btn btn-secondary">Modifier</button></a>
+        <a href="?action=delSnippet&id=<?= $snippet->getSnippetId(); ?>"><button class="btn btn-danger">Supprimer</button></a>
     </p>
 </section>
-<?php $content = ob_get_clean(); ?>
-
-<?php require('view/template.php'); ?>
+<?php
+    $content = ob_get_clean();
+    require('view/template.php');
+?>

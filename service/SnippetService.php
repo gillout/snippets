@@ -35,4 +35,10 @@ class SnippetService
         $result->setCat($cat);
         return $result;
     }
+    public function findLast()
+    {
+        $snippet = $this->_snippetManager->getLastSnippet();
+        return $this->findById($snippet->getSnippetId());
+    }
+
 }

@@ -52,25 +52,15 @@ if ( isset($_GET['action']) && isset($_GET['id']) ) {
     }
     */
 
-    if ($_GET['action'] == 'oneSnippet') {
+    elseif ($_GET['action'] == 'oneSnippet') {
         $snippetCtrl = new SnippetCtrl();
         $snippetCtrl->getOne($_GET['id']);
     } elseif ($_GET['action'] == 'delSnippet') {
         $snippetCtrl = new SnippetCtrl();
         $snippetCtrl->delete($_GET['id']);
     } elseif ($_GET['action'] == 'updSnippet') {
-        $snippet = new Snippet();
-        $snippet->setSnippetId($_GET['id']);
-        $snippet->setTitle('Autoload');
-        $snippet->setLanguage('PHP');
-        $snippet->setCode('function autoload() { echo "Autoload.php"; }');
-        $snippet->setDateCrea('04-02-2020');
-        $snippet->setComment('Fonction de chargement automatique des classes');
-        $snippet->setRequirement('');
-        $snippet->setUserId(5);
-        $snippet->setCatId(2);
         $snippetCtrl = new SnippetCtrl();
-        $snippetCtrl->update($snippet);
+        $snippetCtrl->update($_GET['id']);
     }
 
 } elseif ( isset($_GET['action'])) {
@@ -87,7 +77,7 @@ if ( isset($_GET['action']) && isset($_GET['id']) ) {
         $userCtrl->add($user);
     }
 
-    if ($_GET['action'] == 'listCats') {
+    elseif ($_GET['action'] == 'listCats') {
         $catCtrl = new CatCtrl();
         $catCtrl->getAll();
     } elseif ($_GET['action'] == 'addCat') {
@@ -97,21 +87,12 @@ if ( isset($_GET['action']) && isset($_GET['id']) ) {
         $catCtrl->add($cat);
     }
 
-    if ($_GET['action'] == 'listSnippets') {
+    elseif ($_GET['action'] == 'addSnippet') {
         $snippetCtrl = new SnippetCtrl();
-        $snippetCtrl->getAll();
-    } elseif ($_GET['action'] == 'addSnippet') {
-        $snippet = new Snippet();
-        $snippet->setTitle('Autoload');
-        $snippet->setLanguage('PHP');
-        $snippet->setCode('function hydrate() { echo "Hydrate.php"; }');
-        $snippet->setDateCrea('05-02-2020');
-        $snippet->setComment('Fonction d\'hydratation');
-        $snippet->setRequirement('');
-        $snippet->setUserId(14);
-        $snippet->setCatId(1);
-        $snippetCtrl = new SnippetCtrl();
-        $snippetCtrl->add($snippet);
+        $snippetCtrl->add();
     }
 
+} else {
+    $snippetCtrl = new SnippetCtrl();
+    $snippetCtrl->getLast();
 }
