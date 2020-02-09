@@ -20,7 +20,7 @@
                             <li class="<?= isset($snippet) && $item->getSnippetId() == $snippet->getSnippetId() ? 'selected' : ''; ?>">
                                 <p><?= $item->getTitle(); ?></p>
                                 <p><?= $item->getLanguage(); ?></p>
-                                <p><?= $item->getDateCrea(); ?></p>
+                                <p><?= date('d-m-Y', strtotime($item->getDateCrea())); ?></p>
                             </li>
                         </a>
                     <?php endforeach; ?>

@@ -55,6 +55,7 @@ INSERT INTO `snipcat` (`snippetId`, `catId`) VALUES (3, 3);
 INSERT INTO `snipcat` (`snippetId`, `catId`) VALUES (4, 1);
 INSERT INTO `snipcat` (`snippetId`, `catId`) VALUES (5, 2);
 INSERT INTO `snipcat` (`snippetId`, `catId`) VALUES (7, 1);
+INSERT INTO `snipcat` (`snippetId`, `catId`) VALUES (1, 2);
 
 SELECT title, language, code, dateCrea, comment, requirement, name, label
 	FROM snippet s, user, snipcat sc, cat c

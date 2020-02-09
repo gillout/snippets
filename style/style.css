@@ -13,6 +13,16 @@ main {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    padding-bottom: 10px;
+}
+#listsnippets h1 {
+    padding-top: 20px;
+}
+#listsnippets ul {
+    padding: 10px;
+}
+#listsnippets li {
+    padding: 0px 5px;
 }
 .selected {
     background-color: palegreen;
@@ -23,7 +33,17 @@ main {
 #titlesnippet {
     text-align: left;
 }
+section h1 {
+    padding-top: 20px;
+}
+form {
+    padding: 10px;
+    width: 80%;
+}
 form div {
     display: flex;
     justify-content: center;
+}
+form label {
+    width: 20%;
 }

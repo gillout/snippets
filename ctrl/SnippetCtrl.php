@@ -3,7 +3,6 @@
 require_once(ROOT_DIR . '/config.php');
 require_once(ROOT_DIR . '/PhpHelper.php');
 require_once(ROOT_DIR . '/model/UserManager.php');
-//require_once(ROOT_DIR . '/model/CatManager.php');
 require_once(ROOT_DIR . '/model/SnippetManager.php');
 require_once(ROOT_DIR . '/config/MyPdo.php');
 require_once(ROOT_DIR . '/service/SnippetService.php');
@@ -11,7 +10,6 @@ require_once(ROOT_DIR . '/service/SnippetService.php');
 class SnippetCtrl
 {
     private $_userManager;
-//    private $_catManager;
     private $_snippetManager;
     private $_snippetService;
 
@@ -19,7 +17,6 @@ class SnippetCtrl
     {
         $db = new MyPdo();
         $this->_userManager = new UserManager($db);
-//        $this->_catManager = new CatManager($db);
         $this->_snippetManager = new SnippetManager($db);
         $this->_snippetService = new SnippetService($db);
     }
@@ -43,7 +40,6 @@ class SnippetCtrl
             header('location: ?action=oneSnippet&id=' . $snippet->getSnippetId());
         } else {
             $users = $this->_userManager->getListUsers();
-//            $cats = $this->_catManager->getListCats();
             $snippets = $this->_snippetManager->getListSnippets();
             require(ROOT_DIR . '/view/addUpdSnippetView.php');
         }

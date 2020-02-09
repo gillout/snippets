@@ -18,15 +18,17 @@
                 <p><?= $snippet->getTitle(); ?></p>
                 <p><?= $snippet->getLanguage(); ?></p>
                 <pre><code class="<?= $snippet->getLanguage(); ?>"><?= $snippet->getCode(); ?></code></pre>
-                <p><?= date('d-m-Y', $snippet->getDateCrea()); ?></p>
+                <p><?= date('d-m-Y h:i:s', strtotime($snippet->getDateCrea())); ?></p>
                 <p><?= $snippet->getComment(); ?></p>
                 <p><?= $snippet->getRequirement(); ?></p>
                 <p><?= $snippet->getUser()->getName(); ?></p>
-                <p>Catégories :
-                    <?php foreach ($snippet->getCats() as $cat ) : ?>
-                        <em><?= $cat->getLabel() ?>, </em>
-                    <?php endforeach; ?>
-                </p>
+                <?php if ($snippet->getCats() != NULL) : ?>
+                    <p>Catégories :
+                        <?php foreach ($snippet->getCats() as $cat ) {
+                            echo $cat->getLabel() . ' | ';
+                        } ?>
+                    </p>
+                <?php endif; ?>
         <?php
             } else {
                 echo 'Impossible de trouver le snippet.';
