@@ -38,7 +38,6 @@ ALTER TABLE snipcat
   ADD CONSTRAINT snipcat_cat_fk FOREIGN KEY (catId) REFERENCES cat (catId);
 
 INSERT INTO `user` (`userId`, `name`, `email`, `pwd`) VALUES (NULL, 'Gilles', 'gilles@test.fr', 'gillou');
-
 INSERT INTO `user` (`userId`, `name`, `email`, `pwd`) VALUES (NULL, 'Matthieu', 'matthieu@test.fr', 'matt');
 
 INSERT INTO `cat` (`catId`, `label`) VALUES (NULL, 'Sécurité');
@@ -54,3 +53,19 @@ INSERT INTO `snipcat` (`snippetId`, `catId`) VALUES (2, 3);
 INSERT INTO `snipcat` (`snippetId`, `catId`) VALUES (3, 3);
 INSERT INTO `snipcat` (`snippetId`, `catId`) VALUES (4, 1);
 INSERT INTO `snipcat` (`snippetId`, `catId`) VALUES (5, 2);
+
+SELECT title, language, code, dateCrea, comment, requirement, name, label
+	FROM snippet s, user, snipcat sc, cat c
+	WHERE s.snippetId = sc.snippetId AND sc.catId = c.catId;
+SELECT title, language, code, dateCrea, comment, requirement, name, label
+	FROM snippet s
+  JOIN user u ON s.userId = u.userId
+	JOIN snipcat sc ON s.snippetId = sc.snippetId
+	JOIN cat c ON c.catId = sc.catId;
+
+SELECT snippetId, title, language, code, dateCrea, comment, requirement, userId, catId
+	FROM snippet s, snipcat sc
+	WHERE s.snippetId = sc.snippetId;
+SELECT s.snippetId, title, language, code, dateCrea, comment, requirement, userId, catId
+	FROM snippet s
+	JOIN snipcat sc ON s.snippetId = sc.snippetId;

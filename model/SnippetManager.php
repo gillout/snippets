@@ -47,7 +47,7 @@ class SnippetManager
     {
         // Préparation requête insertion
         $this->_db->exec("set names utf8");
-        $req = $this->_db->prepare('INSERT INTO snippet (title, language, code, dateCrea, comment, requirement, userId, catId) VALUES (:title, :language, :code, :dateCrea, :comment, :requirement, :userId, :catId)');
+        $req = $this->_db->prepare('INSERT INTO snippet (title, language, code, dateCrea, comment, requirement, userId) VALUES (:title, :language, :code, :dateCrea, :comment, :requirement, :userId)');
         // Assignation valeurs
         $title = $snippet->getTitle();
         $req->bindParam(':title', $title);
@@ -63,8 +63,6 @@ class SnippetManager
         $req->bindParam(':requirement', $requirement);
         $userId = $snippet->getUserId();
         $req->bindParam(':userId', $userId);
-        $catId = $snippet->getCatId();
-        $req->bindParam(':catId', $catId);
         // Exécution requête
         if ($req->execute()) {
             $id = $this->_db->lastInsertId();
@@ -83,33 +81,40 @@ class SnippetManager
 
     public function updSnippet(Snippet $snippet)
     {
-        // Préparation requête update
-        $this->_db->exec("set names utf8");
-        $req = $this->_db->prepare('UPDATE snippet SET title=:title, language=:language, code=:code, dateCrea=:dateCrea, comment=:comment, requirement=:requirement, userId=:userId, catId=:catId WHERE snippetId=:snippetId');
-        // Assignation valeurs
-        $title = $snippet->getTitle();
-        $req->bindParam(':title', $title);
-        $language = $snippet->getLanguage();
-        $req->bindParam(':language', $language);
-        $code = $snippet->getCode();
-        $req->bindParam(':code', $code);
-        $dateCrea = $snippet->getDateCrea();
-        $req->bindParam(':dateCrea', $dateCrea);
-        $comment = $snippet->getComment();
-        $req->bindParam(':comment', $comment);
-        $requirement = $snippet->getRequirement();
-        $req->bindParam(':requirement', $requirement);
-        $userId = $snippet->getUserId();
-        $req->bindParam(':userId', $userId);
-        $catId = $snippet->getCatId();
-        $req->bindParam(':catId', $catId);
-        $snippetId = $snippet->getSnippetId();
-        $req->bindParam(':snippetId', $snippetId);
-        // Exécution requête
-        if ($req->execute()) {
-            return $this->getOneSnippet($snippetId);
+        try {
+            echo '<pre>';
+            var_dump($snippet);
+            echo '</pre>';
+            // Préparation requête update
+            $this->_db->exec("set names utf8");
+            $req = $this->_db->prepare('UPDATE snippet SET title=:title, language=:language, code=:code, dateCrea=:dateCrea, comment=:comment, requirement=:requirement, userId=:userId WHERE snippetId=:snippetId');
+            // Assignation valeurs
+            $title = $snippet->getTitle();
+            $req->bindParam(':title', $title);
+            $language = $snippet->getLanguage();
+            $req->bindParam(':language', $language);
+            $code = $snippet->getCode();
+            $req->bindParam(':code', $code);
+            $dateCrea = $snippet->getDateCrea();
+            $req->bindParam(':dateCrea', $dateCrea);
+            $comment = $snippet->getComment();
+            $req->bindParam(':comment', $comment);
+            $requirement = $snippet->getRequirement();
+            $req->bindParam(':requirement', $requirement);
+            $userId = $snippet->getUserId();
+            $req->bindParam(':userId', $userId);
+            $snippetId = $snippet->getSnippetId();
+            $req->bindParam(':snippetId', $snippetId);
+            echo '=================';
+            echo $snippetId . ' ' . $userId;
+            // Exécution requête
+            if ($req->execute()) {
+                return $this->getOneSnippet($snippetId);
+            }
+            return null;
+        } catch (Exception $e) {
+            die($e->getMessage());
         }
-        return null;
     }
 
     public function getLastSnippet()

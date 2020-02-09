@@ -15,15 +15,13 @@
         <?php
             if ($snippet) {
                 ?>
-                <p><?= $snippet->getSnippetId(); ?></p>
                 <p><?= $snippet->getTitle(); ?></p>
                 <p><?= $snippet->getLanguage(); ?></p>
-                <pre><?= $snippet->getCode(); ?></pre>
+                <pre><code class="<?= $snippet->getLanguage(); ?>"><?= $snippet->getCode(); ?></code></pre>
                 <p><?= $snippet->getDateCrea(); ?></p>
                 <p><?= $snippet->getComment(); ?></p>
                 <p><?= $snippet->getRequirement(); ?></p>
                 <p><?= $snippet->getUser()->getName(); ?></p>
-                <p><?= $snippet->getCat()->getLabel(); ?></p>
                 <?php
             } else {
                 echo 'Impossible de trouver le snippet.';

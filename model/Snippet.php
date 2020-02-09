@@ -10,10 +10,9 @@ class Snippet
     private $_comment;
     private $_requirement;
     private $_userId;
-    private $_catId;
-    
+
     // Getters
-    public function getSnippetid()
+    public function getSnippetId()
     {
         return $this->_snippetId;
     }
@@ -45,15 +44,11 @@ class Snippet
     {
         return $this->_userId;
     }
-    public function getCatId()
-    {
-        return $this->_catId;
-    }
 
     // Setters
     public function setSnippetId($snippetId)
     {
-        $this->_snippetId = (int) $snippetId;
+        $this->_snippetId = $snippetId;
     }
     public function setTitle($title)
     {
@@ -81,10 +76,6 @@ class Snippet
     }
     public function setUserId($userId)
     {
-        $this->_userId = (int) $userId;
-    }
-    public function setCatId($catId)
-    {
-        $this->_catId = (int) $catId;
+        $this->_userId = $userId;
     }
 }

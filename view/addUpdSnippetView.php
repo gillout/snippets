@@ -44,10 +44,10 @@
                 <?php endforeach; ?>
             </select>
         </div>
-        <div>
-            <label>Id catégorie :</label>
-            <input type="number" name="catId" value="<?= $isUpdate ? $snippet->getCatId() : '' ?>" required>
-        </div>
+<!--        <div>-->
+<!--            <label>Id catégorie :</label>-->
+<!--            <input type="number" name="catId" value="--><?//= $isUpdate ? $snippet->getCatId() : '' ?><!--" required>-->
+<!--        </div>-->
         <div>
             <button class="btn btn-primary" name="validate">Valider</button>
         </div>
