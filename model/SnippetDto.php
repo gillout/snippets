@@ -10,6 +10,7 @@ class SnippetDto
     private $_comment;
     private $_requirement;
     private $_user;
+    private $_cats = [];
 
     /**
      * @return mixed
@@ -137,5 +138,21 @@ class SnippetDto
     public function setUser($user)
     {
         $this->_user = $user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCats()
+    {
+        return $this->_cats;
+    }
+
+    /**
+     * @param mixed $cats
+     */
+    public function setCats($cats)
+    {
+        $this->_cats = $cats;
     }
 }

@@ -82,4 +82,18 @@ class CatManager
         }
         return null;
     }
+
+    public function getCatsBySnippetId($id)
+    {
+        $this->_db->exec("set names utf8");
+        $req = $this->_db->prepare('SELECT c.catId, c.label FROM cat c JOIN snipcat sc ON sc.catId = c.catId WHERE sc.snippetId = :id');
+        $req->bindParam(':id', $id);
+        $req->setFetchMode(PDO::FETCH_ASSOC);
+        $req->execute();
+        $result = [];
+        foreach ($req->fetchAll() as $cat) {
+            $result[] = $this->hydrate($cat, new Cat);
+        }
+        return $result;
+    }
 }

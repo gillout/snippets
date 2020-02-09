@@ -11,43 +11,34 @@
         <?php if ($isUpdate) { ?>
                 <input type="text" name="snippetId" value="<?= $isUpdate ? $snippet->getSnippetId() : '' ?>" hidden>
         <?php } ?>
-        <div>
-            <label>Titre :</label>
-            <input type="text" name="title" value="<?= $isUpdate ? $snippet->getTitle() : '' ?>" required>
+        <div class="form-group">
+            <label for="title">Titre :</label>
+            <input type="text" class="form-control" id="title" name="title" value="<?= $isUpdate ? $snippet->getTitle() : '' ?>" required>
         </div>
-        <div>
-            <label>Langage :</label>
-            <input type="text" name="language" value="<?= $isUpdate ? $snippet->getLanguage() : '' ?>" required>
+        <div class="form-group">
+            <label for="language">Langage :</label>
+            <input type="text" class="form-control" id="language" name="language" value="<?= $isUpdate ? $snippet->getLanguage() : '' ?>" required>
         </div>
-        <div>
-            <label>Code :</label>
-            <textarea name="code" rows="8" cols="50" required><?= $isUpdate ? $snippet->getCode() : '' ?></textarea>
+        <div class="form-group">
+            <label for="code">Code :</label>
+            <textarea class="form-control" id="code" name="code" rows="8" cols="50" required><?= $isUpdate ? $snippet->getCode() : '' ?></textarea>
         </div>
-        <div>
-            <label>Date de création :</label>
-            <input type="date" name="dateCrea" value="<?= $isUpdate ? $snippet->getDateCrea() : '' ?>">
+        <div class="form-group">
+            <label for="comment">Commentaire :</label>
+            <textarea class="form-control" id="comment" name="comment" rows="4" cols="50"><?= $isUpdate ? $snippet->getComment() : '' ?></textarea>
         </div>
-        <div>
-            <label>Commentaire :</label>
-            <textarea name="comment" rows="4" cols="50"><?= $isUpdate ? $snippet->getComment() : '' ?></textarea>
+        <div class="form-group">
+            <label for="requirement">Prérequis :</label>
+            <input type="text" class="form-control" id="requirement" name="requirement" value="<?= $isUpdate ? $snippet->getRequirement() : '' ?>">
         </div>
-        <div>
-            <label>Prérequis :</label>
-            <input type="text" name="requirement" value="<?= $isUpdate ? $snippet->getRequirement() : '' ?>">
-        </div>
-        <div>
-            <label>Id utilisateur :</label>
-
-            <select name="userId">
+        <div class="form-group">
+            <label for="userid">Id utilisateur :</label>
+            <select class="form-control" id="userid" name="userId">
                 <?php foreach($users as $user) : ?>
                     <option value="<?= $user->getUserId(); ?>"<?= ($isUpdate && $snippet->getUserId() == $user->getUserId()) ? 'selected' : '' ?>><?= $user->getName(); ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
-<!--        <div>-->
-<!--            <label>Id catégorie :</label>-->
-<!--            <input type="number" name="catId" value="--><?//= $isUpdate ? $snippet->getCatId() : '' ?><!--" required>-->
-<!--        </div>-->
         <div>
             <button class="btn btn-primary" name="validate">Valider</button>
         </div>

@@ -47,12 +47,14 @@ INSERT INTO `cat` (`catId`, `label`) VALUES (NULL, 'Infos');
 INSERT INTO `snippet` (`snippetId`, `title`, `language`, `code`, `dateCrea`, `comment`, `requirement`, `userId`) VALUES (NULL, 'A vérifier', 'PHP', '<?php echo \'test\'; ?>\r\npeut être remplacé par\r\n<?= \'test\'; ?>\r\nA confirmer', '2020-02-08', 'Voir avec Matthieu', NULL, 1);
 INSERT INTO `snippet` (`snippetId`, `title`, `language`, `code`, `dateCrea`, `comment`, `requirement`, `userId`) VALUES (NULL, 'HtmlSpecialChar', 'PHP', 'HTMLSPECIALCHAR($_GET[\'variable\'])', '2020-02-08', NULL, NULL, 1);
 INSERT INTO `snippet` (`snippetId`, `title`, `language`, `code`, `dateCrea`, `comment`, `requirement`, `userId`) VALUES (NULL, 'Envoyer un mail', 'PHP', 'mail("label@fournisseur", "Sujet", $message, $header);', '2020-02-07', NULL, NULL, 2);
+INSERT INTO `snippet` (`snippetId`, `title`, `language`, `code`, `comment`, `requirement`, `userId`) VALUES (NULL, 'Debugage', 'PHP', '<?phg debugueur ?>', NULL, NULL, 2);
 
 INSERT INTO `snipcat` (`snippetId`, `catId`) VALUES (1, 3);
 INSERT INTO `snipcat` (`snippetId`, `catId`) VALUES (2, 3);
 INSERT INTO `snipcat` (`snippetId`, `catId`) VALUES (3, 3);
 INSERT INTO `snipcat` (`snippetId`, `catId`) VALUES (4, 1);
 INSERT INTO `snipcat` (`snippetId`, `catId`) VALUES (5, 2);
+INSERT INTO `snipcat` (`snippetId`, `catId`) VALUES (7, 1);
 
 SELECT title, language, code, dateCrea, comment, requirement, name, label
 	FROM snippet s, user, snipcat sc, cat c

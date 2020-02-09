@@ -87,7 +87,7 @@ class SnippetManager
             echo '</pre>';
             // Préparation requête update
             $this->_db->exec("set names utf8");
-            $req = $this->_db->prepare('UPDATE snippet SET title=:title, language=:language, code=:code, dateCrea=:dateCrea, comment=:comment, requirement=:requirement, userId=:userId WHERE snippetId=:snippetId');
+            $req = $this->_db->prepare('UPDATE snippet SET title=:title, language=:language, code=:code, comment=:comment, requirement=:requirement, userId=:userId WHERE snippetId=:snippetId');
             // Assignation valeurs
             $title = $snippet->getTitle();
             $req->bindParam(':title', $title);
@@ -95,8 +95,6 @@ class SnippetManager
             $req->bindParam(':language', $language);
             $code = $snippet->getCode();
             $req->bindParam(':code', $code);
-            $dateCrea = $snippet->getDateCrea();
-            $req->bindParam(':dateCrea', $dateCrea);
             $comment = $snippet->getComment();
             $req->bindParam(':comment', $comment);
             $requirement = $snippet->getRequirement();

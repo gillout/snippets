@@ -18,11 +18,16 @@
                 <p><?= $snippet->getTitle(); ?></p>
                 <p><?= $snippet->getLanguage(); ?></p>
                 <pre><code class="<?= $snippet->getLanguage(); ?>"><?= $snippet->getCode(); ?></code></pre>
-                <p><?= $snippet->getDateCrea(); ?></p>
+                <p><?= date('d-m-Y', $snippet->getDateCrea()); ?></p>
                 <p><?= $snippet->getComment(); ?></p>
                 <p><?= $snippet->getRequirement(); ?></p>
                 <p><?= $snippet->getUser()->getName(); ?></p>
-                <?php
+                <p>Catégories :
+                    <?php foreach ($snippet->getCats() as $cat ) : ?>
+                        <em><?= $cat->getLabel() ?>, </em>
+                    <?php endforeach; ?>
+                </p>
+        <?php
             } else {
                 echo 'Impossible de trouver le snippet.';
             }
@@ -38,3 +43,4 @@
     $content = ob_get_clean();
     require('view/template.php');
 ?>
+

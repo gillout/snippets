@@ -35,7 +35,7 @@ class SnippetCtrl
             $snippet->setTitle($_POST['title']);
             $snippet->setLanguage($_POST['language']);
             $snippet->setCode(htmlentities($_POST['code']));
-            $snippet->setDateCrea($_POST['dateCrea']);
+            $snippet->setDateCrea(date("Y-m-d H:i:s"));
             $snippet->setComment($_POST['comment']);
             $snippet->setRequirement($_POST['requirement']);
             $snippet->setUserId($_POST['userId']);
@@ -62,7 +62,6 @@ class SnippetCtrl
             $snippet->setTitle($_POST['title']);
             $snippet->setLanguage($_POST['language']);
             $snippet->setCode(htmlentities($_POST['code']));
-            $snippet->setDateCrea($_POST['dateCrea']);
             $snippet->setComment(htmlentities($_POST['comment']));
             $snippet->setRequirement(htmlentities($_POST['requirement']));
             $snippet->setUserId($_POST['userId']);
