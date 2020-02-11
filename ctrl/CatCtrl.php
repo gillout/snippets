@@ -1,19 +1,23 @@
 <?php
 
 require_once(ROOT_DIR . '/config.php');
+require_once(ROOT_DIR . '/model/SnippetManager.php');
 require_once(ROOT_DIR . '/model/CatManager.php');
 require_once(ROOT_DIR . '/config/MyPdo.php');
 
 class CatCtrl
 {
+    private $_snippetManager;
     private $_catManager;
 
     public function __construct()
     {
+        $this->_snippetManager = new SnippetManager(new MyPdo());
         $this->_catManager = new CatManager(new MyPdo());
     }
 
     public function getAll() {
+        $snippets = $this->_snippetManager->getListSnippets();
         $cats = $this->_catManager->getListCats();
         require(ROOT_DIR . '/view/allCatsView.php');
     }

@@ -40,5 +40,10 @@ class SnippetService
         $snippet = $this->_snippetManager->getLastSnippet();
         return $this->findById($snippet->getSnippetId());
     }
+    public function findLastByCat($id)
+    {
+        $snippet = $this->_snippetManager->getLastSnippetByCat($id);
+        return $this->findById($snippet->getSnippetId());
+    }
 
 }

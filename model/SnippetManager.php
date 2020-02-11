@@ -13,9 +13,11 @@ class SnippetManager
 
     private function hydrate(array $data, Snippet $obj):Snippet
     {
-        foreach ($data as $key=>$value) { // => [snippetId][title][language][code][dateCrea][comment][requirement][userId][catId]
-            $method = "set" . ucfirst($key); // setSnippetId, setTitle, setLanguage, setCode, setDateCrea, setComment, setRequirement, setUserId, setCatId
-            $obj->$method($value);
+        foreach ($data as $key=>$value) { // => [snippetId][title][language][code][dateCrea][comment][requirement][userId]
+            $method = "set" . ucfirst($key); // setSnippetId, setTitle, setLanguage, setCode, setDateCrea, setComment, setRequirement, setUserId
+            if (method_exists($obj, $method)) {
+                $obj->$method($value);
+            }
         }
         return $obj;
     }
@@ -34,6 +36,22 @@ class SnippetManager
     {
         $this->_db->exec("set names utf8");
         $req = $this->_db->prepare('SELECT * FROM snippet');
+        $req->execute();
+        $req->setFetchMode(PDO::FETCH_ASSOC);
+        $result = [];
+        foreach ($req->fetchAll() as $snippet) {
+            $result[] = $this->hydrate($snippet, new Snippet);
+        }
+        return $result;
+    }
+
+    public function getListSnippetsByCat($id)
+    {
+        $this->_db->exec("set names utf8");
+        $req = $this->_db->prepare('
+            SELECT s.snippetId, title, language, code, dateCrea, comment, requirement, sc.catId
+                FROM snippet s JOIN snipcat sc ON s.snippetId = sc.snippetId WHERE sc.catId = :id');
+        $req->bindParam(':id', $id);
         $req->execute();
         $req->setFetchMode(PDO::FETCH_ASSOC);
         $result = [];
@@ -82,9 +100,6 @@ class SnippetManager
     public function updSnippet(Snippet $snippet)
     {
         try {
-            echo '<pre>';
-            var_dump($snippet);
-            echo '</pre>';
             // Préparation requête update
             $this->_db->exec("set names utf8");
             $req = $this->_db->prepare('UPDATE snippet SET title=:title, language=:language, code=:code, comment=:comment, requirement=:requirement, userId=:userId WHERE snippetId=:snippetId');
@@ -119,6 +134,19 @@ class SnippetManager
     {
         $this->_db->exec("set names utf8");
         $req = $this->_db->prepare('SELECT * FROM snippet ORDER BY snippetId DESC LIMIT 1');
+        $req->execute();
+        $req->setFetchMode(PDO::FETCH_ASSOC);
+        return $this->hydrate($req->fetch(), new Snippet());
+    }
+
+    public function getLastSnippetByCat($id)
+    {
+        $this->_db->exec("set names utf8");
+        $req = $this->_db->prepare('
+            SELECT s.snippetId, title, language, code, dateCrea, comment, requirement, sc.catId
+                FROM snippet s JOIN snipcat sc ON s.snippetId = sc.snippetId
+                    WHERE catId = :id ORDER BY s.snippetId DESC LIMIT 1');
+        $req->bindParam(':id', $id);
         $req->execute();
         $req->setFetchMode(PDO::FETCH_ASSOC);
         return $this->hydrate($req->fetch(), new Snippet());

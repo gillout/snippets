@@ -6,14 +6,17 @@ require_once(ROOT_DIR . '/config/MyPdo.php');
 
 class UserCtrl
 {
+    private $_snippetManager;
     private $_userManager;
 
     public function __construct()
     {
+        $this->_snippetManager = new SnippetManager(new MyPdo());
         $this->_userManager = new UserManager(new MyPdo());
     }
 
     public function getAll() {
+        $snippets = $this->_snippetManager->getListSnippets();
         $users = $this->_userManager->getListUsers();
         require(ROOT_DIR . '/view/allUsersView.php');
     }

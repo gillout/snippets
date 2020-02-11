@@ -15,7 +15,6 @@
         <?php
             if ($snippet) {
                 ?>
-                <p><?= $snippet->getTitle(); ?></p>
                 <p><?= $snippet->getLanguage(); ?></p>
                 <pre><code class="<?= $snippet->getLanguage(); ?>"><?= $snippet->getCode(); ?></code></pre>
                 <p><?= date('d-m-Y h:i:s', strtotime($snippet->getDateCrea())); ?></p>
@@ -23,10 +22,14 @@
                 <p><?= $snippet->getRequirement(); ?></p>
                 <p><?= $snippet->getUser()->getName(); ?></p>
                 <?php if ($snippet->getCats() != NULL) : ?>
-                    <p>Catégories :
-                        <?php foreach ($snippet->getCats() as $cat ) {
-                            echo $cat->getLabel() . ' | ';
-                        } ?>
+                    <p>Catégorie(s) :
+                        <?php
+                            $str = '';
+                            foreach ($snippet->getCats() as $cat ) {
+                                $str .= '<a href="?cat=' . $cat->getCatId() . '">' . $cat->getLabel() . '</a> | ';
+                            }
+                            echo substr($str, 0, strlen($str) - 3);
+                        ?>
                     </p>
                 <?php endif; ?>
         <?php
