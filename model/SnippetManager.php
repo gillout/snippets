@@ -1,26 +1,10 @@
 <?php
 
 require_once(ROOT_DIR . '/model/Snippet.php');
+require_once(ROOT_DIR . '/model/Manager.php');
 
-class SnippetManager
+class SnippetManager extends Manager
 {
-    private $_db; // Instance de PDO
-
-    public function __construct($db)
-    {
-        $this->_db = $db;
-    }
-
-    private function hydrate(array $data, Snippet $obj):Snippet
-    {
-        foreach ($data as $key=>$value) { // => [snippetId][title][language][code][dateCrea][comment][requirement][userId]
-            $method = "set" . ucfirst($key); // setSnippetId, setTitle, setLanguage, setCode, setDateCrea, setComment, setRequirement, setUserId
-            if (method_exists($obj, $method)) {
-                $obj->$method($value);
-            }
-        }
-        return $obj;
-    }
 
     public function getOneSnippet($snippetId)
     {
@@ -32,7 +16,7 @@ class SnippetManager
         return $this->hydrate($req->fetch(), new Snippet());
     }
 
-    public function getListSnippets()
+    public function getListSnippets():array
     {
         $this->_db->exec("set names utf8");
         $req = $this->_db->prepare('SELECT * FROM snippet');
@@ -49,7 +33,7 @@ class SnippetManager
     {
         $this->_db->exec("set names utf8");
         $req = $this->_db->prepare('
-            SELECT s.snippetId, title, language, code, dateCrea, comment, requirement, sc.catId
+            SELECT s.snippetId, title, code, dateCrea, comment, requirement, userId, languageId, sc.catId
                 FROM snippet s JOIN snipcat sc ON s.snippetId = sc.snippetId WHERE sc.catId = :id');
         $req->bindParam(':id', $id);
         $req->execute();
@@ -61,16 +45,30 @@ class SnippetManager
         return $result;
     }
 
+    public function getAllByLanguageId($id)
+    {
+        $this->_db->exec("set names utf8");
+        $req = 'SELECT s.snippetId, title, code, dateCrea, comment, requirement, userId, languageId, sc.catId
+                FROM snippet s JOIN snipcat sc ON s.snippetId = sc.snippetId WHERE languageId = :id';
+        $stmt = $this->_db->prepare($req);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $objs = [];
+        foreach($results as $result) {
+            $objs[] = $this->hydrate($result, new Snippet);
+        }
+        return $objs;
+    }
+
     public function addSnippet(Snippet $snippet)
     {
         // Préparation requête insertion
         $this->_db->exec("set names utf8");
-        $req = $this->_db->prepare('INSERT INTO snippet (title, language, code, dateCrea, comment, requirement, userId) VALUES (:title, :language, :code, :dateCrea, :comment, :requirement, :userId)');
+        $req = $this->_db->prepare('INSERT INTO snippet (title, code, dateCrea, comment, requirement, userId, languageId) VALUES (:title, :language, :code, :dateCrea, :comment, :requirement, :userId, :languageId)');
         // Assignation valeurs
         $title = $snippet->getTitle();
         $req->bindParam(':title', $title);
-        $language = $snippet->getLanguage();
-        $req->bindParam(':language', $language);
         $code = $snippet->getCode();
         $req->bindParam(':code', $code);
         $dateCrea = $snippet->getDateCrea();
@@ -81,6 +79,8 @@ class SnippetManager
         $req->bindParam(':requirement', $requirement);
         $userId = $snippet->getUserId();
         $req->bindParam(':userId', $userId);
+        $languageId = $snippet->getLanguageId();
+        $req->bindParam(':languageId', $languageId);
         // Exécution requête
         if ($req->execute()) {
             $id = $this->_db->lastInsertId();
@@ -102,12 +102,10 @@ class SnippetManager
         try {
             // Préparation requête update
             $this->_db->exec("set names utf8");
-            $req = $this->_db->prepare('UPDATE snippet SET title=:title, language=:language, code=:code, comment=:comment, requirement=:requirement, userId=:userId WHERE snippetId=:snippetId');
+            $req = $this->_db->prepare('UPDATE snippet SET title=:title, code=:code, comment=:comment, requirement=:requirement, userId=:userId, languageId=:languageId WHERE snippetId=:snippetId');
             // Assignation valeurs
             $title = $snippet->getTitle();
             $req->bindParam(':title', $title);
-            $language = $snippet->getLanguage();
-            $req->bindParam(':language', $language);
             $code = $snippet->getCode();
             $req->bindParam(':code', $code);
             $comment = $snippet->getComment();
@@ -116,6 +114,8 @@ class SnippetManager
             $req->bindParam(':requirement', $requirement);
             $userId = $snippet->getUserId();
             $req->bindParam(':userId', $userId);
+            $languageId = $snippet->getLanguageId();
+            $req->bindParam(':languageId', $languageId);
             $snippetId = $snippet->getSnippetId();
             $req->bindParam(':snippetId', $snippetId);
             echo '=================';
@@ -143,7 +143,7 @@ class SnippetManager
     {
         $this->_db->exec("set names utf8");
         $req = $this->_db->prepare('
-            SELECT s.snippetId, title, language, code, dateCrea, comment, requirement, sc.catId
+            SELECT s.snippetId, title, code, dateCrea, comment, requirement,/*userId,*/ languageId, sc.catId
                 FROM snippet s JOIN snipcat sc ON s.snippetId = sc.snippetId
                     WHERE catId = :id ORDER BY s.snippetId DESC LIMIT 1');
         $req->bindParam(':id', $id);
@@ -151,4 +151,63 @@ class SnippetManager
         $req->setFetchMode(PDO::FETCH_ASSOC);
         return $this->hydrate($req->fetch(), new Snippet());
     }
+
+    public function getLastByLanguageId($id)
+    {
+        $this->_db->exec("set names utf8");
+        $req = 'SELECT s.snippetId, title, code, dateCrea, comment, requirement, userId, languageId, sc.catId
+                    FROM snippet s JOIN snipcat sc ON s.snippetId = sc.snippetId
+                    WHERE languageId = :id ORDER BY s.snippetId DESC LIMIT 1';
+        $stmt = $this->_db->prepare($req);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $this->hydrate($result, new Snippet());
+
+    }
+
+    public function getAll(array $criteres)
+    {
+        // Initialisation de la requête commune à tous les cas de figure (indépendant du nombre de critères passés)
+        $req = 'SELECT s.snippetId, title, code, dateCrea, comment, requirement, userId, languageId
+                FROM snippet s';
+        $clauses = [];
+        // Si la catégorie est présente
+        if ($criteres['cat'] != '') {
+            // alors on ajoute une clause de WHERE
+            $clauses[] = 'catId=:cat';
+            // alors on ajoute une jointure
+            $req .= ' JOIN snipcat sc ON s.snippetId = sc.snippetId';
+        }
+        // Si le language est présent
+        if ($criteres['language'] != '') {
+            // alors on ajoute une clause WHERE
+            $clauses[] = 'languageId=:language';
+        }
+        // Si le keyword est présent
+        if ($criteres['keyword'] != '') {
+            // alors on ajoute une clause WHERE
+            $clauses[] = '(title like %:keyword% OR code like %:keyword% OR comment like %:keyword%)';
+        }
+        // La fonction JOIN nous permet
+        $clausesStr = join(" AND ", $clauses);
+        $req .= (strlen($clausesStr) > 0 ) ? ' WHERE ' . $clausesStr : '';
+        $stmt = $this->_db->prepare($req);
+        PhpHelper::debug($req);
+        foreach ($criteres as $key=>$value) {
+            if ($value != '') {
+                echo $key;
+                $stmt->bindParam(":$key", $value);
+            }
+        }
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        var_dump($results);
+        $objs = [];
+        foreach ($results as $result) {
+            $objs[] = $this->hydrate($result, new Snippet());
+        }
+        return $objs;
+    }
+
 }

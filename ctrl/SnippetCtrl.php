@@ -4,6 +4,7 @@ require_once(ROOT_DIR . '/config.php');
 require_once(ROOT_DIR . '/PhpHelper.php');
 require_once(ROOT_DIR . '/model/UserManager.php');
 require_once(ROOT_DIR . '/model/CatManager.php');
+require_once(ROOT_DIR . '/model/LanguageManager.php');
 require_once(ROOT_DIR . '/model/SnippetManager.php');
 require_once(ROOT_DIR . '/config/MyPdo.php');
 require_once(ROOT_DIR . '/service/SnippetService.php');
@@ -12,6 +13,7 @@ class SnippetCtrl
 {
     private $_userManager;
     private $_catManager;
+    private $_languageManager;
     private $_snippetManager;
     private $_snippetService;
 
@@ -20,36 +22,39 @@ class SnippetCtrl
         $db = new MyPdo();
         $this->_userManager = new UserManager($db);
         $this->_catManager = new CatManager($db);
+        $this->_languageManager = new LanguageManager($db);
         $this->_snippetManager = new SnippetManager($db);
         $this->_snippetService = new SnippetService($db);
     }
 
     public function getOne($id) {
         $cats = $this->_catManager->getListCats();
+        $languages = $this->_languageManager->getList();
         if (isset($_GET ['cat'])) {
-            $snippets = $this->_snippetManager->getListSnippetsByCat($_GET ['cat']);
+            $snippetsDto = $this->_snippetService->findAllByCat($_GET ['cat']);
         } else {
-            $snippets = $this->_snippetManager->getListSnippets();
+            $snippetsDto = $this->_snippetService->getList();
         }
-        $snippet = $this->_snippetService->findById($id);
+        $snippetDto = $this->_snippetService->findById($id);
         require(ROOT_DIR . '/view/oneSnippetView.php');
     }
     public function add() {
         if (isset($_POST['validate'])) {
             $snippet = new Snippet();
             $snippet->setTitle($_POST['title']);
-            $snippet->setLanguage($_POST['language']);
             $snippet->setCode(htmlentities($_POST['code']));
             $snippet->setDateCrea(date("Y-m-d H:i:s"));
             $snippet->setComment($_POST['comment']);
             $snippet->setRequirement($_POST['requirement']);
             $snippet->setUserId($_POST['userId']);
+            $snippet->setLanguageId($_POST['languageId']);
             $snippet = $this->_snippetManager->addSnippet($snippet);
             header('location: ?action=oneSnippet&id=' . $snippet->getSnippetId());
         } else {
             $users = $this->_userManager->getListUsers();
             $cats = $this->_catManager->getListCats();
-            $snippets = $this->_snippetManager->getListSnippets();
+            $languages = $this->_languageManager->getList();
+            $snippetsDto = $this->_snippetService->getList();
             require(ROOT_DIR . '/view/addUpdSnippetView.php');
         }
     }
@@ -57,8 +62,9 @@ class SnippetCtrl
     {
         $deleted = $this->_snippetManager->delSnippet($id);
         $cats = $this->_catManager->getListCats();
-        $snippets = $this->_snippetManager->getListSnippets();
-        $snippet = $this->_snippetService->findLast();
+        $languages = $this->_languageManager->getList();
+        $snippetsDto = $this->_snippetService->getList();
+        $snippetDto = $this->_snippetService->findLast();
         require(ROOT_DIR . '/view/oneSnippetView.php');
     }
     public function update($id) {
@@ -66,11 +72,11 @@ class SnippetCtrl
             $snippet = new Snippet();
             $snippet->setSnippetId($_POST['snippetId']);
             $snippet->setTitle($_POST['title']);
-            $snippet->setLanguage($_POST['language']);
             $snippet->setCode(htmlentities($_POST['code']));
             $snippet->setComment(htmlentities($_POST['comment']));
             $snippet->setRequirement(htmlentities($_POST['requirement']));
             $snippet->setUserId($_POST['userId']);
+            $snippet->setLanguageId($_POST['languageId']);
             $snippet = $this->_snippetManager->updSnippet($snippet);
             if (!is_null($snippet)) {
                 header('location: ?action=oneSnippet&id=' . $snippet->getSnippetId());
@@ -81,20 +87,30 @@ class SnippetCtrl
         } else {
             $users = $this->_userManager->getListUsers();
             $cats = $this->_catManager->getListCats();
-            $snippets = $this->_snippetManager->getListSnippets();
-            $snippet = $this->_snippetManager->getOneSnippet($id);
+            $languages = $this->_languageManager->getList();
+            $snippetsDto = $this->_snippetService->getList();
+            $snippetDto = $this->_snippetService->getOne($id);
             require(ROOT_DIR . '/view/addUpdSnippetView.php');
         }
     }
     public function getLast() {
+        // Url : http://localhost:8001/?language=1&cat=2&keyword=test => [language => 1, cat => 2, keyword => 'test']
+        extract($_GET);
+
+
+
+        $criteres = [
+            'language' => isset($language) ? $language : '',
+            'cat' => isset($cat) ? $cat : '',
+            'keyword' => isset($keyword) ? $keyword : ''
+            ];
         $cats = $this->_catManager->getListCats();
-        if (isset($_GET ['cat'])) {
-            $snippets = $this->_snippetManager->getListSnippetsByCat($_GET ['cat']);
-            $snippet = $this->_snippetService->findLastByCat($_GET ['cat']);
-        } else {
-            $snippets = $this->_snippetManager->getListSnippets();
-            $snippet = $this->_snippetService->findLast();
-        }
+        $languages = $this->_languageManager->getList();
+        // Récupère tous les snippetsDto en fonction des critères
+        $snippetsDto = $this->_snippetService->findAll($criteres);
+        PhpHelper::debug($snippetsDto);
+        // Récupère le dernier snippetDto en fonction des critères
+        $snippetDto = $this->_snippetService->findLast($criteres);
         require(ROOT_DIR . '/view/oneSnippetView.php');
     }
 }

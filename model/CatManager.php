@@ -1,24 +1,10 @@
 <?php
 
 require_once(ROOT_DIR . '/model/Cat.php');
+require_once(ROOT_DIR . '/model/Manager.php');
 
-class CatManager
+class CatManager extends Manager
 {
-    private $_db; // Instance de PDO
-
-    public function __construct($db)
-    {
-        $this->_db = $db;
-    }
-
-    private function hydrate(array $data, Cat $obj):Cat
-    {
-        foreach ($data as $key=>$value) { // => [userId][label]
-            $method = "set" . ucfirst($key); // setUserId, setLabel
-            $obj->$method($value);
-        }
-        return $obj;
-    }
 
     public function getOneCat($catId)
     {

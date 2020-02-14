@@ -10,9 +10,16 @@ CREATE TABLE user (
 
 CREATE TABLE cat (
 	catId INT AUTO_INCREMENT,
-	label VARCHAR(50) NULL,
+	label VARCHAR(50) NOT NULL,
 	CONSTRAINT cat_pk PRIMARY KEY (catId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE language (
+    languageId INT AUTO_INCREMENT,
+	label VARCHAR(50) NOT NULL,
+	CONSTRAINT language_pk PRIMARY KEY (languageId)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+INSERT INTO language (label) SELECT DISTINCT language FROM snippet;
 
 CREATE TABLE snippet (
 	snippetId INT AUTO_INCREMENT,
@@ -27,6 +34,10 @@ CREATE TABLE snippet (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 ALTER TABLE snippet
   ADD CONSTRAINT snippet_user_fk FOREIGN KEY (userId) REFERENCES user (userId);
+ALTER TABLE snippet ADD COLUMN languageId INT NOT NULL;
+UPDATE snippet s JOIN language l ON s.language = l.label SET s.languageId = l.languageId;
+ALTER TABLE snippet DROP COLUMN language;
+ALTER TABLE snippet ADD CONSTRAINT language_fk FOREIGN KEY (languageId) REFERENCES language (languageId);
 
 CREATE TABLE snipcat (
 	snippetId INT,

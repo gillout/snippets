@@ -13,6 +13,12 @@
     <body>
         <main>
             <aside id="navcol">
+                <ul>Languages
+                    <li><a href=".">Tous les langages</a></li>
+                    <?php foreach ($languages as $language) : ?>
+                        <li><a href="?language=<?= $language->getLanguageId() ?>"><?= $language->getLabel() ?></a></li>
+                    <?php endforeach; ?>
+                </ul>
                 <ul>Catégories
                     <li><a href=".">Toutes les catégories</a></li>
                     <?php foreach ($cats as $cat) : ?>
@@ -24,11 +30,11 @@
             <aside id="listsnippets">
                 <h1>Tous les snippets</h1>
                 <ul>
-                    <?php foreach ($snippets as $item) : ?>
+                    <?php foreach ($snippetsDto as $item) : ?>
                         <a href="?action=oneSnippet&id=<?= $item->getSnippetId() . $cat ?>">
                             <li class="<?= isset($snippet) && $item->getSnippetId() == $snippet->getSnippetId() ? 'selected' : ''; ?>">
                                 <h2><?= $item->getTitle(); ?></h2>
-                                <p><?= $item->getLanguage(); ?></p>
+                                <p><?= $item->getLanguage()->getLabel(); ?></p>
                                 <p><?= date('d-m-Y', strtotime($item->getDateCrea())); ?></p>
                             </li>
                         </a>

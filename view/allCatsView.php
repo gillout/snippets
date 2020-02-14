@@ -2,7 +2,7 @@
 <?php $h1 = 'Liste des catégories'; ?>
 
 <?php ob_start(); ?>
-<section class="flexgrow2">
+<section>
     <h1><?= $h1; ?></h1>
     <p>
         <table>

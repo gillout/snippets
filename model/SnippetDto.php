@@ -4,13 +4,13 @@ class SnippetDto
 {
     private $_snippetId;
     private $_title;
-    private $_language;
     private $_code;
     private $_dateCrea;
     private $_comment;
     private $_requirement;
     private $_user;
     private $_cats = [];
+    private $_language;
 
     /**
      * @return mixed
@@ -154,5 +154,21 @@ class SnippetDto
     public function setCats($cats)
     {
         $this->_cats = $cats;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLanguages()
+    {
+        return $this->_language;
+    }
+
+    /**
+     * @param mixed $languages
+     */
+    public function setLanguages($languages)
+    {
+        $this->_language = $languages;
     }
 }
