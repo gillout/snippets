@@ -23,22 +23,17 @@ class SnippetService
 
     public function findById($id):SnippetDto
     {
-        $snippet = $this->_snippetManager->getOneSnippet($id);
+        $snippet = $this->_snippetManager->getOne($id);
         return $this->mapToDto($snippet);
     }
-    public function findLast()
+    public function findLast(array $criteres)
     {
-        $snippet = $this->_snippetManager->getLastSnippet();
-        return $this->findById($snippet->getSnippetId());
-    }
-    public function findLastByCat($id)
-    {
-        $snippet = $this->_snippetManager->getLastSnippetByCat($id);
+        $snippet = $this->_snippetManager->getLast($criteres);
         return $this->findById($snippet->getSnippetId());
     }
     public function getList():array
     {
-        $snippets = $this->_snippetManager->getListSnippets();
+        $snippets = $this->_snippetManager->getAll();
         $resultDto = [];
         foreach ($snippets as $snippet) {
             $snippetDto = $this->mapToDto($snippet);
@@ -47,42 +42,9 @@ class SnippetService
         return $resultDto;
     }
 
-    public function findAllByCat($cat)
-    {
-        // Etape 1 : Appel du manager pour récupérer les snippets par catégorie
-        $snippets = $this->_snippetManager->getListSnippetsByCat($cat);
-        // Etape 2 : Transformer chaque snippet en snippetDto
-        $resultDto = [];
-        foreach ($snippets as $snippet) {
-            $snippetDto = $this->mapToDto($snippet);
-            $resultDto[] = $snippetDto;
-        }
-        return $resultDto;
-    }
-
     public function getOne($id):?SnippetDto
     {
-        $snippet = $this->_snippetManager->getOneSnippet($id);
-        $snippetDto = $this->mapToDto($snippet);
-        return $snippetDto;
-    }
-
-    public function findAllByLanguageId($id)
-    {
-        $snippets = $this->_snippetManager->getAllByLanguageId($id);
-        // Todo : Transformer en Dto et renvoyer
-        $resultDto = [];
-        foreach ($snippets as $snippet) {
-            $snippetDto = $this->mapToDto($snippet);
-            $resultDto[] = $snippetDto;
-        }
-        return $resultDto;
-    }
-
-    public function findLastByLanguageId($id)
-    {
-        $snippet = $this->_snippetManager->getLastByLanguageId($id);
-        // Todo : Transformer en Dto et renvoyer
+        $snippet = $this->_snippetManager->getOne($id);
         $snippetDto = $this->mapToDto($snippet);
         return $snippetDto;
     }
@@ -115,7 +77,6 @@ class SnippetService
         $snippets = $this->_snippetManager->getAll($criteres);
         // Transformer les snippets en snippetDto
         $snippetsDto = [];
-        PhpHelper::debug($snippets);
         foreach ($snippets as $snippet) {
                $snippetsDto[] = $this->mapToDto($snippet);
         }

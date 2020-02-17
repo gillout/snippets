@@ -31,7 +31,7 @@ class SnippetCtrl
         $cats = $this->_catManager->getListCats();
         $languages = $this->_languageManager->getList();
         if (isset($_GET ['cat'])) {
-            $snippetsDto = $this->_snippetService->findAllByCat($_GET ['cat']);
+            $snippetsDto = $this->_snippetService->findAll([ 'cat' => $_GET['cat'] ]);
         } else {
             $snippetsDto = $this->_snippetService->getList();
         }
@@ -48,7 +48,7 @@ class SnippetCtrl
             $snippet->setRequirement($_POST['requirement']);
             $snippet->setUserId($_POST['userId']);
             $snippet->setLanguageId($_POST['languageId']);
-            $snippet = $this->_snippetManager->addSnippet($snippet);
+            $snippet = $this->_snippetManager->add($snippet);
             header('location: ?action=oneSnippet&id=' . $snippet->getSnippetId());
         } else {
             $users = $this->_userManager->getListUsers();
@@ -60,7 +60,7 @@ class SnippetCtrl
     }
     public function delete($id)
     {
-        $deleted = $this->_snippetManager->delSnippet($id);
+        $deleted = $this->_snippetManager->delete($id);
         $cats = $this->_catManager->getListCats();
         $languages = $this->_languageManager->getList();
         $snippetsDto = $this->_snippetService->getList();
@@ -77,7 +77,7 @@ class SnippetCtrl
             $snippet->setRequirement(htmlentities($_POST['requirement']));
             $snippet->setUserId($_POST['userId']);
             $snippet->setLanguageId($_POST['languageId']);
-            $snippet = $this->_snippetManager->updSnippet($snippet);
+            $snippet = $this->_snippetManager->update($snippet);
             if (!is_null($snippet)) {
                 header('location: ?action=oneSnippet&id=' . $snippet->getSnippetId());
             } else {
@@ -95,20 +95,20 @@ class SnippetCtrl
     }
     public function getLast() {
         // Url : http://localhost:8001/?language=1&cat=2&keyword=test => [language => 1, cat => 2, keyword => 'test']
-        extract($_GET);
-
-
-
-        $criteres = [
-            'language' => isset($language) ? $language : '',
-            'cat' => isset($cat) ? $cat : '',
-            'keyword' => isset($keyword) ? $keyword : ''
-            ];
+        $criteres = [];
+        if (array_key_exists('language', $_GET) && $_GET['language'] != '') {
+            $criteres['language'] = $_GET['language'];
+        }
+        if (array_key_exists('cat', $_GET) && $_GET['cat'] != '') {
+            $criteres['cat'] = $_GET['cat'];
+        }
+        if (array_key_exists('keyword', $_GET) && $_GET['keyword'] != '') {
+            $criteres['keyword'] = $_GET['keyword'];
+        }
         $cats = $this->_catManager->getListCats();
         $languages = $this->_languageManager->getList();
         // Récupère tous les snippetsDto en fonction des critères
         $snippetsDto = $this->_snippetService->findAll($criteres);
-        PhpHelper::debug($snippetsDto);
         // Récupère le dernier snippetDto en fonction des critères
         $snippetDto = $this->_snippetService->findLast($criteres);
         require(ROOT_DIR . '/view/oneSnippetView.php');

@@ -16,7 +16,7 @@ class UserCtrl
     }
 
     public function getAll() {
-        $snippets = $this->_snippetManager->getListSnippets();
+        $snippets = $this->_snippetManager->getAll();
         $users = $this->_userManager->getListUsers();
         require(ROOT_DIR . '/view/allUsersView.php');
     }

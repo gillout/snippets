@@ -17,7 +17,7 @@ class CatCtrl
     }
 
     public function getAll() {
-        $snippets = $this->_snippetManager->getListSnippets();
+        $snippets = $this->_snippetManager->getAll();
         $cats = $this->_catManager->getListCats();
         require(ROOT_DIR . '/view/allCatsView.php');
     }
